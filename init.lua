@@ -23,8 +23,16 @@ require("catppuccin").setup()
 
 local builtin = require("telescope.builtin")
 
+local function toogle_spell_check()
+	vim.opt.spell = not(vim.opt.spell:get())
+end
+
 vim.keymap.set('n', '<C-p>', builtin.find_files, {})
 vim.keymap.set('n', '<C-F>', builtin.live_grep, {})
-
+vim.keymap.set('n', '<F5>', toogle_spell_check)
+vim.cmd("set spelllang=en_us,pl")
+vim.cmd("setlocal spell")
 vim.cmd("set relativenumber")
 vim.cmd.colorscheme "catppuccin" 
+
+
