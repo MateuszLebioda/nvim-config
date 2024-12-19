@@ -30,3 +30,6 @@ opt.splitbelow = true
 
 -- Properties of default explorer to looks more like tree
 vim.cmd("let g:netrw_liststyle = 3")
+
+vim.opt.spelllang = "en_us,pl"
+vim.opt.spell = true

@@ -1,5 +1,5 @@
 ------------------------------
--- Plugin show preety tab name 
+-- Plugin show preety tab name
 ------------------------------
 return {
 	"akinsho/bufferline.nvim",
