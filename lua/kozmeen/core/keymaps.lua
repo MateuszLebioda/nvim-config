@@ -2,6 +2,14 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap
 
+-- global
+keymap.set("n", "H", "_", { desc = "Move to start line" })
+keymap.set("n", "L", "$", { desc = "Move to end line" })
+
+--Navigation
+vim.keymap.set("n", "J", "<C-d>zz", { noremap = true, silent = true, desc = "Nawigacja w dółstrony" })
+vim.keymap.set("n", "K", "<C-u>zz", { noremap = true, silent = true, desc = "Nawigacja w górę" })
+
 -- Exit INSERT mode
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 

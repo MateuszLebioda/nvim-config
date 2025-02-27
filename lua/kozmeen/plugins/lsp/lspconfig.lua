@@ -55,7 +55,7 @@ return {
 				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
 				opts.desc = "Show documentation for what is under cursor"
-				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+				keymap.set("n", "go", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
@@ -73,6 +73,16 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
+		local gdscript_config = {
+			capabilitiesa = capabilities,
+			filetypes = { "gd", "gdscript", "gdscript3" },
+		}
+
+		if vim.fn.has("win32") == 1 then
+			gdscript_config["cmd"] = { "ncat", "localhost", "6005" }
+		end
+
+		lspconfig.gdscript.setup(gdscript_config)
 		--
 		mason_lspconfig.setup_handlers({
 			-- default handler for installed servers

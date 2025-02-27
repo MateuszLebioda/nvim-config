@@ -1,0 +1,19 @@
+-- Auto indent after : char
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- 	pattern = "*.gd",
+-- 	callback = function()
+-- 		vim.bo.autoindent = false
+-- 		vim.bo.smartindent = false
+--
+-- 		vim.keymap.set("i", "<CR>", function()
+-- 			local line = vim.api.nvim_get_current_line()
+-- 			local indent = string.match(line, "^%s*") or ""
+--
+-- 			if line:match(":$") then
+-- 				return "<CR>" .. indent .. "\t" -- Nowa linia + dodatkowe wcięcie
+-- 			else
+-- 				return "<CR>" .. indent -- Standardowe zachowanie
+-- 			end
+-- 		end, { buffer = true, expr = true })
+-- 	end,
+-- })
