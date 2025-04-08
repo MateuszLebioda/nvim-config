@@ -25,6 +25,17 @@ return {
 			},
 		})
 		local keymap = vim.keymap
-		keymap.set("n", "<leader>ds", "<cmd>Lspsaga show_line_diagnostics<CR>", { noremap = true, silent = true })
+		keymap.set(
+			"n",
+			"<leader>ds",
+			"<cmd>Lspsaga show_line_diagnostics<CR>",
+			{ noremap = true, silent = true, desc = "Show line disgnostic" }
+		)
+		keymap.set(
+			"n",
+			"<leader>ot",
+			"<cmd>Lspsaga term_toggle<CR>",
+			{ noremap = true, silent = true, desc = "Open terminal inside on nvim" }
+		)
 	end,
 }

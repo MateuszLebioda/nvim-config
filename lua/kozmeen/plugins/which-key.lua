@@ -8,6 +8,7 @@ return {
 		local wk = require("which-key")
 		wk.add({
 			{ "<leader>c", group = "Comment/Coda Actions", icon = "  " },
+			{ "<leader>o", group = "Open", icon = " 󰏋 " },
 			{ "<leader>e", group = "Explorer NeoTree", icon = " 󰙅 " },
 			{ "<leader>f", group = "Find", icon = "  " },
 			{ "<leader>a", group = "Mark text in AST mode", icon = " 󱫀 " },
