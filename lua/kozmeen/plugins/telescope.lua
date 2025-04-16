@@ -8,28 +8,7 @@
 -- Plugin to open some kind of inputs (using for example in LSP)
 ----------------------------------------------------------------
 
-function godot_file_filter()
-	local telescope = require("telescope")
-	local utils = require("kozmeen.core.utils")
-	-- local sorters = require("telescope.sorters")
-	local goodot_project_file = vim.fn.getcwd() .. "/project.godot"
-
-	if utils.file_exists(goodot_project_file) then
-		telescope.setup({
-			defaults = {
-				file_ignore_patterns = godot_ignore_patterns(),
-				-- sorting_strategy = "ascending",
-			},
-			-- pickers = {
-			-- 	find_files = {
-			-- 		sorter = sorters.Sorter:new({ scoring_function = godot_file_order }),
-			-- 	},
-			-- },
-		})
-	end
-end
-
-function godot_ignore_patterns()
+local function godot_ignore_patterns()
 	return {
 		"%.png",
 		"%.jpg",
@@ -42,28 +21,19 @@ function godot_ignore_patterns()
 	}
 end
 
--- function godot_file_order(_, prompt, line)
--- 	local utils = require("kozmeen.core.utils")
--- 	local priority = {
--- 		[".gd"] = 1,
--- 	}
---
--- 	local defualt_priority = 10
---
--- 	-- utils.print_table(prompt)
--- 	utils.print_table(line)
--- 	-- local ext1 = entry1.value:match("^.+(%..+)$") or ""
--- 	-- local ext2 = entry2.value:match("^.+(%..+)$") or ""
--- 	--
--- 	-- local priority1 = priority[ext1] or defualt_priority
--- 	-- local priority2 = priority[ext2] or defualt_priority
--- 	--
--- 	-- if priority1 ~= priority2 then
--- 	-- 	return priority1 < priority2
--- 	-- end
--- 	--
--- 	-- return entry1.value < entry2.value
--- end
+local function godot_file_filter()
+	local telescope = require("telescope")
+	local utils = require("kozmeen.core.utils")
+	local goodot_project_file = vim.fn.getcwd() .. "/project.godot"
+
+	if utils.file_exists(goodot_project_file) then
+		telescope.setup({
+			defaults = {
+				file_ignore_patterns = godot_ignore_patterns(),
+			},
+		})
+	end
+end
 
 return {
 	{
@@ -74,16 +44,28 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		config = function()
-			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Fuzzy find files in cwd" })
-			vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Find string in cws" })
-			vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "List buffers" })
-			vim.keymap.set("n", "<leader>fr", "<cmd>Telescope registers<CR>", { desc = "List or registers" })
+			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Files in cwd" })
+			vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Files contains string" })
+			vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Buffers" })
+			vim.keymap.set("n", "<leader>fr", "<cmd>Telescope registers<CR>", { desc = "Registers" })
+			vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "Avaliable documentation" })
 			vim.keymap.set("n", "<leader>fo", function()
 				require("telescope.builtin").oldfiles({
 					cwd_only = true,
 					path_display = { "relative" },
 				})
-			end, { desc = "List old files" })
+			end, { desc = "Recent files" })
+			vim.keymap.set("n", "<leader>fg", function()
+				require("telescope.builtin").git_status()
+			end, { desc = "Git chages files" }) -- show diagnostics for file
+
+			vim.keymap.set(
+				"n",
+				"<leader>fd",
+				"<cmd>Telescope diagnostics bufnr=0<CR>",
+				{ desc = "Errors in current file" }
+			) -- show diagnostics for file
+			vim.keymap.set("n", "<leader>fm", "<cmd>Telescope notify <CR>", { desc = "Messages" }) -- show diagnostics for file
 
 			local telescope = require("telescope")
 			telescope.setup({
@@ -91,9 +73,24 @@ return {
 					path_display = { "smart" },
 					mappings = {
 						i = {
-							["<A-k>"] = require("telescope.actions").move_selection_previous, -- Alt + k -> Up
-							["<A-j>"] = require("telescope.actions").move_selection_next, -- Alt + j -> Down
+							["<A-k>"] = require("telescope.actions").preview_scrolling_up,
+							["<A-j>"] = require("telescope.actions").preview_scrolling_down,
+							["<Esc>"] = require("telescope.actions").close,
 						},
+						n = {
+							["<A-k>"] = require("telescope.actions").preview_scrolling_up,
+							["<A-j>"] = require("telescope.actions").preview_scrolling_down,
+							["s"] = require("telescope.actions").select_vertical,
+							["t"] = require("telescope.actions").select_tab,
+						},
+					},
+					layout_strategy = "vertical",
+					layout_config = {
+						width = 0.8,
+						height = 0.9,
+						mirror = true,
+						preview_cutoff = 1,
+						preview_height = 0.6,
 					},
 				},
 			})

@@ -1,9 +1,9 @@
 ------------------------------
--- Plugin show preety tab name
+-- Plugin show preety tabs name
 ------------------------------
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
 	dependencies = "nvim-tree/nvim-web-devicons",
-	opts = { options = { mode = "tabs", seperator_style = "slat" } },
+	opts = { options = { mode = "tabs", show_buffer_close_icons = false, separator_style = "slant" } },
 }

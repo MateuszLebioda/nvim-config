@@ -9,7 +9,7 @@ return {
 	config = function()
 		local treesitter = require("nvim-treesitter.configs")
 
-		treesitter.setup({ -- enable syntax highlighting
+		treesitter.setup({
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = false,
@@ -40,10 +40,10 @@ return {
 			incremental_selection = {
 				enable = true,
 				keymaps = {
-					init_selection = "<leader>ai",
-					node_incremental = "<leader>ai",
-					scope_incremental = "<leader>as",
-					node_decremental = "<leader>ab",
+					init_selection = "<leader>mi",
+					node_incremental = "<leader>mi",
+					scope_incremental = "<leader>ms",
+					node_decremental = "<leader>mb",
 				},
 			},
 		})

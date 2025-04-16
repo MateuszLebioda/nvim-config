@@ -1,3 +1,7 @@
+# Kozmeen Nvim
+
+It is my configuration of nvim. Feel free to use!
+
 # Install
 
 To be sure that all plugins work correctly use those command:
@@ -13,8 +17,6 @@ winget install zig.zig
 ```
 
 ## Linux
-
-# Install ripgrep - telescope live_grep
 
 ```bash
 sudo apt-get install ripgrep

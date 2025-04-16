@@ -3,22 +3,22 @@ vim.g.mapleader = " "
 local keymap = vim.keymap
 
 -- global
-keymap.set("n", "H", "_", { desc = "Move to start line" })
-keymap.set("n", "L", "$", { desc = "Move to end line" })
+keymap.set({ "n", "v" }, "H", "_", { desc = "Move to start line" })
+keymap.set({ "n", "v" }, "L", "$", { desc = "Move to end line" })
 
 --Navigation
-vim.keymap.set("n", "J", "<C-d>zz", { noremap = true, silent = true, desc = "Nawigacja w dółstrony" })
-vim.keymap.set("n", "K", "<C-u>zz", { noremap = true, silent = true, desc = "Nawigacja w górę" })
+vim.keymap.set({ "n", "v" }, "J", "<C-d>zz", { noremap = true, silent = true, desc = "Nawigacja w dółstrony" })
+vim.keymap.set({ "n", "v" }, "K", "<C-u>zz", { noremap = true, silent = true, desc = "Nawigacja w górę" })
 
 -- Exit INSERT mode
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
 -- Search
-keymap.set("n", "<leader>sc", ":nohl<CR>", { desc = "Clear search result highlights" })
+keymap.set("n", "<leader>as", ":nohl<CR>", { desc = "Clear search result highlights" })
 
 -- Increment/decrtement
-keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
-keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
+keymap.set("n", "<leader>r+", "<C-a>", { desc = "Increment number" })
+keymap.set("n", "<leader>r-", "<C-x>", { desc = "Decrement number" })
 
 -- Panel manager
 keymap.set("n", "<leader>pv", function()
@@ -50,8 +50,8 @@ keymap.set("n", "<A-j>", "<C-w>j", { desc = "Go to down panel" })
 -- Window size
 -- keymap.set("n", "<A-Up>", ":resize +2<CR>", { noremap = true, silent = true })
 -- keymap.set("n", "<A-Down>", ":resize -2<CR>", { noremap = true, silent = true })
-keymap.set("n", "<A-Right>", ":vertical resize +2<CR>", { noremap = true, silent = true })
-keymap.set("n", "<A-Left>", ":vertical resize -2<CR>", { noremap = true, silent = true })
+keymap.set("n", "<A-Right>", ":vertical resize +2<CR>", { noremap = true, silent = true, desc = "Vertical resize +" })
+keymap.set("n", "<A-Left>", ":vertical resize -2<CR>", { noremap = true, silent = true, desc = "Vertical resize -" })
 
 -- Tabs
 keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })
