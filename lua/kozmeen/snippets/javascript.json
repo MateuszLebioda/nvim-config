@@ -1,9 +1,4 @@
 {
-  "kupa": {
-    "scope": "javascript,typescript,javascriptreact",
-    "prefix": "kupa",
-    "body": ["kupa", "kupa", "Kupa"]
-  },
   "console.log": {
     "scope": "javascript,typescript,javascriptreact",
     "prefix": "cl",

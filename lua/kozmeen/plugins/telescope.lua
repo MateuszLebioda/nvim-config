@@ -8,20 +8,7 @@
 -- Plugin to open some kind of inputs (using for example in LSP)
 ----------------------------------------------------------------
 
-local function godot_ignore_patterns()
-	return {
-		"%.png",
-		"%.jpg",
-		"%.jpeg",
-		"%.bmp",
-		"%.gif",
-		"%.tiff",
-		"%.svg",
-		"%.tmp",
-	}
-end
-
-local function godot_file_filter()
+function godot_file_filter()
 	local telescope = require("telescope")
 	local utils = require("kozmeen.core.utils")
 	local goodot_project_file = vim.fn.getcwd() .. "/project.godot"
@@ -35,6 +22,19 @@ local function godot_file_filter()
 	end
 end
 
+function godot_ignore_patterns()
+	return {
+		"%.png",
+		"%.jpg",
+		"%.jpeg",
+		"%.bmp",
+		"%.gif",
+		"%.tiff",
+		"%.svg",
+		"%.tmp",
+	}
+end
+
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -44,17 +44,17 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		config = function()
-			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Files in cwd" })
-			vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Files contains string" })
-			vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Buffers" })
-			vim.keymap.set("n", "<leader>fr", "<cmd>Telescope registers<CR>", { desc = "Registers" })
-			vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "Avaliable documentation" })
+			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Fuzzy find files in cwd" })
+			vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Find string in cws" })
+			vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "List buffers" })
+			vim.keymap.set("n", "<leader>fr", "<cmd>Telescope registers<CR>", { desc = "List or registers" })
 			vim.keymap.set("n", "<leader>fo", function()
 				require("telescope.builtin").oldfiles({
 					cwd_only = true,
 					path_display = { "relative" },
 				})
-			end, { desc = "Recent files" })
+			end, { desc = "List old files" })
+
 			vim.keymap.set("n", "<leader>fg", function()
 				require("telescope.builtin").git_status()
 			end, { desc = "Git chages files" }) -- show diagnostics for file
@@ -66,7 +66,6 @@ return {
 				{ desc = "Errors in current file" }
 			) -- show diagnostics for file
 			vim.keymap.set("n", "<leader>fm", "<cmd>Telescope notify <CR>", { desc = "Messages" }) -- show diagnostics for file
-
 			local telescope = require("telescope")
 			telescope.setup({
 				defaults = {

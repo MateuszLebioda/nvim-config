@@ -1,13 +1,16 @@
 ---------------------
 -- Explorer files
 ----------------------
+local function hide_by_pattern()
+	local hide = {}
 
-local function open_on_setup()
-	if vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
-		vim.cmd("enew") -- pusty bufor
-		vim.cmd("cd " .. vim.fn.argv(0)) -- ustaw katalog roboczy
-		vim.cmd("silent! bdelete 1") -- usuń bufor otwarty przez plugin
+	local utils = require("kozmeen.core.utils")
+	local goodot_project_file = vim.fn.getcwd() .. "/project.godot"
+	if utils.file_exists(goodot_project_file) then
+		table.insert(hide, "*.tmp")
 	end
+
+	return hide
 end
 
 return {
@@ -28,15 +31,17 @@ return {
 			window = {
 				position = "float",
 			},
+			filesystem = {
+				hijack_netrw_behavior = "disabled",
+				filtered_items = {
+					hide_by_pattern = hide_by_pattern(),
+				},
+			},
 		})
 
 		local keymap = vim.keymap
 		keymap.set("n", "<leader>ee", "<cmd>Neotree toggle<CR>", { desc = "Toogle Neotree window" })
 		keymap.set("n", "<leader>ef", "<cmd>Neotree %<CR>", { desc = "Open Neotree with current file" })
 		keymap.set("n", "<leader>eg", "<cmd>Neotree float git_status<CR>", { desc = "Open git status window" })
-	end,
-
-	init = function()
-		open_on_setup()
 	end,
 }
