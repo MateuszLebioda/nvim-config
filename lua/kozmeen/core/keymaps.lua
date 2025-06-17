@@ -32,11 +32,6 @@ end, { desc = "Split window horizontally" })
 keymap.set("n", "<leader>pe", "<C-w>=", { desc = "Make splits equal size" })
 keymap.set("n", "<leader>px", "<cmd>close<CR>", { desc = "Close currnet split" })
 
--- keymap.set("n", "<leader>pH", "<cmd>wincmd H<CR>", { desc = "Move current panel to left" })
--- keymap.set("n", "<leader>pL", "<cmd>wincmd L<CR>", { desc = "Move current panel to right" })
--- keymap.set("n", "<leader>pJ", "<cmd>wincmd J<CR>", { desc = "Move current panel down" })
--- keymap.set("n", "<leader>pK", "<cmd>wincmd H<CR>", { desc = "Move current panel up" })
-
 keymap.set("n", "<leader>pH", "<C-w>H", { desc = "Move current panel to left" })
 keymap.set("n", "<leader>pL", "<C-w>L", { desc = "Move current panel to right" })
 keymap.set("n", "<leader>pJ", "<C-w>K", { desc = "Move current panel down" })
@@ -47,9 +42,6 @@ keymap.set("n", "<A-l>", "<C-w>l", { desc = "Go to next panel" })
 keymap.set("n", "<A-k>", "<C-w>k", { desc = "Go to up panel" })
 keymap.set("n", "<A-j>", "<C-w>j", { desc = "Go to down panel" })
 
--- Window size
--- keymap.set("n", "<A-Up>", ":resize +2<CR>", { noremap = true, silent = true })
--- keymap.set("n", "<A-Down>", ":resize -2<CR>", { noremap = true, silent = true })
 keymap.set("n", "<A-Right>", ":vertical resize +2<CR>", { noremap = true, silent = true, desc = "Vertical resize +" })
 keymap.set("n", "<A-Left>", ":vertical resize -2<CR>", { noremap = true, silent = true, desc = "Vertical resize -" })
 
@@ -65,3 +57,6 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Oppent current buff
 -- Buffers
 keymap.set("n", "<leader>bp", "<C-o>", { noremap = true, silent = true, desc = "Open previous buffer" })
 keymap.set("n", "<leader>bn", "<C-i>", { noremap = true, silent = true, desc = "Open next buffer" })
+
+--Makr
+keymap.set("n", "<leader>ma", "<Esc>ggvG$zz", { noremap = true, silent = true, desc = "Mark all file content" })

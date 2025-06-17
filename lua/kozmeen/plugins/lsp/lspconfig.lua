@@ -4,24 +4,16 @@ local function keybinding()
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 		callback = function(ev)
-			local telescope = require("telescope.builtin")
 			local opts = { buffer = ev.buf, silent = true }
 
 			opts.desc = "Show LSP references"
-			vim.keymap.set("n", "<leader>ir", '<cmd>Telescope lsp_references path_display={"tail"}<CR>', opts)
+			vim.keymap.set("n", "gr", '<cmd>Telescope lsp_references path_display={"tail"}<CR>', opts)
 
 			opts.desc = "Show LSP definitions"
-			vim.keymap.set("n", "<leader>iD", "<cmd>Telescope lsp_definitions <CR>", opts)
-			opts.desc = "Show LSP definitions in split"
-			vim.keymap.set("n", "<leader>id", function()
-				telescope.lsp_definitions({ jump_type = "vsplit" })
-			end, opts)
+			vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions <CR>", opts)
 
 			opts.desc = "Show LSP implementations"
-			vim.keymap.set("n", "<leader>ii", "<cmd>Telescope lsp_implementations<CR>", opts)
-
-			opts.desc = "Show LSP type definitions"
-			vim.keymap.set("n", "<leader>it", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+			vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 
 			opts.desc = "Code actions"
 			vim.keymap.set({ "n", "v" }, "<leader>ac", vim.lsp.buf.code_action, opts)

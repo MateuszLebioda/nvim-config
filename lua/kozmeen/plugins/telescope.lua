@@ -66,6 +66,7 @@ return {
 				{ desc = "Errors in current file" }
 			) -- show diagnostics for file
 			vim.keymap.set("n", "<leader>fm", "<cmd>Telescope notify <CR>", { desc = "Messages" }) -- show diagnostics for file
+			vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags <CR>", { desc = "Help" }) -- show diagnostics for file
 			local telescope = require("telescope")
 			telescope.setup({
 				defaults = {
