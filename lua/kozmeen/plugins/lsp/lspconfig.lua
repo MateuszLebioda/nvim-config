@@ -1,16 +1,97 @@
 local Icons = require("kozmeen.core.icons")
+local Utils = require("kozmeen.core.utils")
+
+local function open_split_in_buffor(fn)
+	local params = vim.lsp.util.make_position_params()
+
+	vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result, ctx, _)
+		if err or not result or vim.tbl_isempty(result) then
+			vim.notify("Definition not found", vim.log.levels.WARN)
+			return
+		end
+
+		fn()
+
+		vim.lsp.util.jump_to_location(result[1], "utf-8")
+
+		vim.cmd("normal! zz")
+	end)
+end
+
+---@param direction '"up"'|'"down"'|'"left"'|'"right"'
+local function open_split_definitions(direction)
+	open_split_in_buffor(function()
+		Utils.OpenSplit(direction)
+	end)
+end
+
+---@param direction '"up"'|'"down"'|'"left"'|'"right"'
+local function open_split_definitions_in_exist(direction)
+	open_split_in_buffor(function()
+		Utils.TryChangeOrCreateNewSplit(direction)
+	end)
+end
 
 local function keybinding()
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 		callback = function(ev)
 			local opts = { buffer = ev.buf, silent = true }
+			local builtin = require("telescope.builtin")
 
 			opts.desc = "Show LSP references"
 			vim.keymap.set("n", "gr", '<cmd>Telescope lsp_references path_display={"tail"}<CR>', opts)
 
 			opts.desc = "Show LSP definitions"
-			vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions <CR>", opts)
+			vim.keymap.set("n", "gd", function()
+				builtin.lsp_definitions()
+				vim.cmd("normal! zz")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - split down"
+			vim.keymap.set("n", "gdj", function()
+				open_split_definitions("down")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - try open in down"
+			vim.keymap.set("n", "gdJ", function()
+				open_split_definitions_in_exist("down")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - split up"
+			vim.keymap.set("n", "gdk", function()
+				open_split_definitions("up")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - try open in up"
+			vim.keymap.set("n", "gdK", function()
+				open_split_definitions_in_exist("up")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - split left"
+			vim.keymap.set("n", "gdh", function()
+				open_split_definitions("left")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - try open in left"
+			vim.keymap.set("n", "gdH", function()
+				open_split_definitions_in_exist("left")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - split right"
+			vim.keymap.set("n", "gdl", function()
+				open_split_definitions("right")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - try open in right"
+			vim.keymap.set("n", "gdL", function()
+				open_split_definitions_in_exist("right")
+			end, opts)
+
+			opts.desc = "Show LSP definitions - tab"
+			vim.keymap.set("n", "gdt", function()
+				builtin.lsp_definitions({ jump_type = "tab" })
+			end, opts)
 
 			opts.desc = "Show LSP implementations"
 			vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
@@ -28,12 +109,7 @@ local function keybinding()
 			vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, opts)
 
 			opts.desc = "Open documentation for what is under cursor"
-			vim.keymap.set("n", "<leader>od", function()
-				vim.cmd("Lspsaga hover_doc")
-				vim.defer_fn(function()
-					vim.cmd("Lspsaga hover_doc")
-				end, 200)
-			end, opts)
+			vim.keymap.set("n", "<leader>od", vim.lsp.buf.hover, opts)
 
 			opts.desc = "Restart LSP"
 			vim.keymap.set("n", "<leader>al", ":LspRestart<CR>", opts)

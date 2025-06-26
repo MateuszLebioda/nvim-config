@@ -15,6 +15,7 @@ local Icons = {
 	panels = "",
 	replace = "",
 	tabs = "󰓩",
+	terminal = "",
 	trace = "✎",
 	warn = "",
 	wrap = "󰗅",

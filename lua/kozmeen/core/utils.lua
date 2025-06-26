@@ -75,5 +75,65 @@ local function print_table(table, indent)
 	end
 end
 
+---@param direction '"up"'|'"down"'|'"left"'|'"right"'
+function Utils.OpenSplit(direction)
+	local split_cmd = {
+		up = "aboveleft split",
+		down = "split",
+		left = "leftabove vsplit",
+		right = "vsplit",
+	}
+
+	if not split_cmd[direction] then
+		vim.notify("Invalid direction: " .. tostring(direction), vim.log.levels.ERROR)
+		return
+	end
+	vim.cmd(split_cmd[direction])
+end
+---
+---@param direction '"up"'|'"down"'|'"left"'|'"right"'
+function Utils.ChangeSplit(direction)
+	local split_cmd = {
+		up = "k",
+		down = "j",
+		left = "h",
+		right = "l",
+	}
+
+	if not split_cmd[direction] then
+		vim.notify("Invalid direction: " .. tostring(direction), vim.log.levels.ERROR)
+		return
+	end
+	vim.cmd("wincmd " .. split_cmd[direction])
+end
+
+---@param direction '"up"'|'"down"'|'"left"'|'"right"'
+function Utils.TryChangeOrCreateNewSplit(direction)
+	if Utils.has_window_on(direction) then
+		Utils.ChangeSplit(direction)
+		return
+	end
+	Utils.OpenSplit(direction)
+end
+
+function Utils.CustomComplete(arg, items)
+	return vim.tbl_filter(function(item)
+		return vim.startswith(item, arg)
+	end, items)
+end
+
+---@param direction '"up"'|'"down"'|'"left"'|'"right"'
+function Utils.has_window_on(direction)
+	local split_cmd = {
+		up = "k",
+		down = "j",
+		left = "h",
+		right = "l",
+	}
+	local current = vim.fn.winnr()
+	local target = vim.fn.winnr(split_cmd[direction])
+	return target ~= current
+end
+
 Utils.print_table = print_table
 return Utils

@@ -27,6 +27,7 @@ return {
 			{ "<leader>r", group = "Replace", icon = Icons.with_space(Icons.replace) },
 			{ "<leader>s", group = "Session", icon = Icons.with_space(Icons.session) },
 			{ "<leader>t", group = "Tabs", icon = Icons.with_space(Icons.tabs) },
+			{ "<leader>T", group = "Terminal", icon = Icons.with_space(Icons.terminal) },
 			-- { "<leader>u", group = "", icon = Icons.with_space() },
 			{ "<leader>w", group = "Wrap text", icon = Icons.with_space(Icons.wrap) },
 			-- { "<leader>x", group = "", icon = Icons.with_space() },
