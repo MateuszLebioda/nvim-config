@@ -108,6 +108,9 @@ local function keybinding()
 			opts.desc = "Go to next diagnostic"
 			vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, opts)
 
+			opts.desc = "Go to next diagnostic"
+			vim.keymap.set("n", "<leader>do", vim.diagnostic.open_float, opts)
+
 			opts.desc = "Open documentation for what is under cursor"
 			vim.keymap.set("n", "<leader>od", vim.lsp.buf.hover, opts)
 
@@ -167,6 +170,8 @@ return {
 			["ts_ls"] = function()
 				local nvim_config_home = vim.fn.stdpath("config")
 				lspconfig["ts_ls"].setup({
+					name = "ts_ls_js",
+					filetypes = { "javascript", "javascriptreact", "javascript.jsx" },
 					init_options = {
 						plugins = {
 							{
@@ -176,6 +181,21 @@ return {
 						},
 						preferences = {
 							importModuleSpecifierEnding = "js",
+						},
+					},
+				})
+				lspconfig["ts_ls"].setup({
+					name = "ts_ls_ts",
+					filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+					init_options = {
+						plugins = {
+							{
+								name = "@styled/typescript-styled-plugin",
+								location = nvim_config_home .. "/node_modules/@styled/typescript-styled-plugin",
+							},
+						},
+						preferences = {
+							importModuleSpecifierEnding = "minimal",
 						},
 					},
 				})

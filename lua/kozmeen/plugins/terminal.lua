@@ -4,7 +4,7 @@ return {
 	config = function()
 		require("toggleterm").setup({
 			direction = "float",
-			open_mapping = "<leader>To",
+			open_mapping = "<leader>ot",
 			float_opts = {
 				title_pos = "center",
 				border = "curved",

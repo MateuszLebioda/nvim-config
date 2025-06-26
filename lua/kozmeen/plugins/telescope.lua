@@ -144,10 +144,13 @@ return {
 			) -- show diagnostics for file
 			vim.keymap.set("n", "<leader>fm", "<cmd>Telescope notify <CR>", { desc = "Messages" }) -- show diagnostics for file
 			vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags <CR>", { desc = "Help" }) -- show diagnostics for file
+			vim.keymap.set("n", "<leader>fn", "<cmd>Navbuddy<CR>", { desc = "Lsp Navigation" }) -- show diagnostics for file
 			registerTerminalPicker()
 			local telescope = require("telescope")
+
 			telescope.setup({
 				defaults = {
+					file_ignore_patterns = { "node_modules" },
 					path_display = { "smart" },
 					mappings = {
 						i = {

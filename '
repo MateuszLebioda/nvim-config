@@ -2,12 +2,32 @@
 -- Plugin show special symbol in line bar to show git status line
 -- Plugin also show blame in currant line
 -----------------------------------------------------------------
-local function update_status_await()
+local function undo_stage_buffer()
+	local bufname = vim.api.nvim_buf_get_name(0)
+	if bufname == "" then
+		print("Brak pliku do cofnięcia stage")
+		return
+	end
+
+	-- Upewnij się, że plik jest zapisany przed cofnięciem stage
+	vim.cmd("write")
+
+	-- Cofnij stage tylko dla bieżącego pliku
+	local cmd = string.format("git restore --staged %q", bufname)
+	vim.fn.system(cmd)
+
+	-- Odśwież gitsigns, żeby pokazał aktualny stan
+	require("gitsigns").refresh()
+end
+
+local function update_status()
 	vim.defer_fn(function()
 		print("Half a second later...")
 		vim.cmd("GitStatusRefresh")
 	end, 500)
 end
+-- Mapowanie np. pod leader + gs
+vim.keymap.set("n", "<leader>gs", undo_stage_buffer, { desc = "Undo Git stage buffer" })
 
 return {
 	{ "tpope/vim-fugitive" },
@@ -21,26 +41,18 @@ return {
 				-- Stage (git add)
 				vim.keymap.set("v", "<leader>gA", function()
 					gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					update_status_await()
+					update_status()
 				end, { desc = "Stage selected lines" })
 
 				vim.keymap.set("n", "<leader>gA", function()
 					gs.stage_hunk()
-					update_status_await()
+					update_status()
 				end, { desc = "Stage selected hunk" })
 
 				vim.keymap.set("n", "<leader>ga", function()
 					vim.cmd("!git add " .. vim.api.nvim_buf_get_name(0))
-					update_status_await()
+					update_status()
 				end, { desc = "Stage buffer" })
-
-				vim.keymap.set("n", "<leader>g!a", function()
-					vim.cmd("!git add -A")
-					update_status_await()
-				end, { desc = "Stage all files" })
-
-				vim.keymap.set("n", "<leader>gcm", ":Git commit<CR>", { desc = "Commit" })
-				vim.keymap.set("n", "<leader>gca", ":Git commit --amend<CR>", { desc = "Commit --ammedn" })
 
 				--Diff
 				vim.keymap.set("n", "<leader>gd", function()
@@ -58,38 +70,33 @@ return {
 				--Unstage (git reset)
 				vim.keymap.set("v", "<leader>gU", function()
 					gs.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					update_status_await()
+					update_status()
 				end, { buffer = bufnr, desc = "Undo stage selected lines" })
 
 				vim.keymap.set("n", "<leader>gU", function()
 					gs.undo_stage_hunk()
-					update_status_await()
+					update_status()
 				end, { desc = "Undo stage selected hunk" })
 
 				vim.keymap.set("n", "<leader>gu", function()
 					vim.cmd("!git restore --staged " .. vim.api.nvim_buf_get_name(0))
-					update_status_await()
+					update_status()
 				end, { desc = "Undo stage hunk" })
-
-				vim.keymap.set("n", "<leader>g!u", function()
-					vim.cmd("!git restore --staged *")
-					update_status_await()
-				end, { desc = "Stage all files" })
 
 				-- Reset
 				vim.keymap.set("n", "<leader>gE", function()
 					gs.reset_hunk()
-					update_status_await()
+					update_status()
 				end, { desc = "Reset hunk" })
 
 				vim.keymap.set("v", "<leader>gE", function()
 					gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					update_status_await()
+					update_status()
 				end, { buffer = bufnr, desc = "Reset hunk" })
 
 				vim.keymap.set("n", "<leader>ge", function()
 					gs.reset_buffer()
-					update_status_await()
+					update_status()
 				end, { buffer = bufnr, desc = "Reset buffer" })
 
 				-- Blame

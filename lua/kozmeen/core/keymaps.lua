@@ -59,4 +59,13 @@ keymap.set("n", "<leader>bp", "<C-o>", { noremap = true, silent = true, desc = "
 keymap.set("n", "<leader>bn", "<C-i>", { noremap = true, silent = true, desc = "Open next buffer" })
 
 --Makr
-keymap.set("n", "<leader>ma", "<Esc>ggvG$zz", { noremap = true, silent = true, desc = "Mark all file content" })
+keymap.set("n", "<leader>ma", "<Esc>gg0vG$zz", { noremap = true, silent = true, desc = "Mark all file content" })
+
+if vim.fn.has("win32") then
+	keymap.set("n", "<leader>oep", function()
+		vim.cmd("OpenExplorer cwd")
+	end, { noremap = true, silent = true, desc = "Project directory" })
+	keymap.set("n", "<leader>oec", function()
+		vim.cmd("OpenExplorer cwd")
+	end, { noremap = true, silent = true, desc = "Current buffer directory" })
+end

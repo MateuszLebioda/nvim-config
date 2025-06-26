@@ -7,6 +7,13 @@ return {
 		cmdline = {
 			format = {
 				searchAndReplace = { pattern = { "^:%%?s/" }, icon = "󱈅", lang = "regex" },
+				search_down = {
+					kind = "cmdline",
+					pattern = "^/",
+					icon = " ",
+					lang = "regex",
+				},
+				search_up = { kind = "cmdline", pattern = "^%?", icon = " ", lang = "regex" },
 			},
 		},
 	},

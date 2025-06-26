@@ -5,6 +5,7 @@ local Icons = {
 	comment = " ",
 	code = "󰘦",
 	debug = "",
+	directory = "",
 	error = "",
 	explorer = "󰙅",
 	find = "",
@@ -20,6 +21,11 @@ local Icons = {
 	warn = "",
 	wrap = "󰗅",
 	session = "",
+	git_icon = {
+		add = "",
+		modified = "",
+		unstaged = "",
+	},
 }
 
 function Icons.with_space(icon)
