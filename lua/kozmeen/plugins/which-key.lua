@@ -23,7 +23,7 @@ return {
 			-- { "<leader>k", group = "", icon = Icons.with_space() },
 			{ "<leader>l", group = "LSP", icon = Icons.with_space(Icons.find) },
 			{ "<leader>m", mode = { "n", "v" }, group = "Mark", icon = Icons.with_space(Icons.mark) },
-			-- { "<leader>n", group = "", icon = Icons.with_space() },
+			{ "<leader>n", group = "Notification", icon = Icons.with_space(Icons.info) },
 			{ "<leader>o", group = "Open", icon = Icons.with_space(Icons.open) },
 			{ "<leader>oe", group = "Explorer", icon = Icons.with_space(Icons.directory) },
 			{ "<leader>p", group = "Panels", icon = Icons.with_space(Icons.panels) },

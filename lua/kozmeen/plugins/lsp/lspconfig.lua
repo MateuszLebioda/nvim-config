@@ -1,5 +1,5 @@
-local Icons = require("kozmeen.core.icons")
 local Utils = require("kozmeen.core.utils")
+local Icons = require("kozmeen.core.icons")
 
 local function open_split_in_buffor(fn)
 	local params = vim.lsp.util.make_position_params()
@@ -119,105 +119,64 @@ local function keybinding()
 		end,
 	})
 end
-
-local function create_signs()
-	local signs = { Error = Icons.error, Warn = Icons.warn, Hint = Icons.actions, Info = Icons.info }
-
-	for type, icon in pairs(signs) do
-		local hl = "DiagnosticSign" .. type
-		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-	end
-end
-
-local function create_gdscript_config(capabilities)
-	local lspconfig = require("lspconfig")
-	local gdscript_config = {
-		capabilities = capabilities,
-		filetypes = { "gd", "gdscript", "gdscript3" },
-	}
-
-	if vim.fn.has("win32") == 1 then
-		gdscript_config["cmd"] = { "ncat", "localhost", "6005" }
-	end
-
-	lspconfig.gdscript.setup(gdscript_config)
-end
-
 return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
+		"williamboman/mason.nvim", -- ważne, by był w zależnościach
+		"williamboman/mason-lspconfig.nvim",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
-		local lspconfig = require("lspconfig")
-		local mason_lspconfig = require("mason-lspconfig")
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
-		local capabilities = cmp_nvim_lsp.default_capabilities()
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = Icons.error,
+					[vim.diagnostic.severity.WARN] = Icons.warn,
+					[vim.diagnostic.severity.INFO] = Icons.info,
+					[vim.diagnostic.severity.HINT] = Icons.hint,
+				},
+				linehl = {
+					[vim.diagnostic.severity.ERROR] = "Error",
+					[vim.diagnostic.severity.WARN] = "Warn",
+					[vim.diagnostic.severity.INFO] = "Info",
+					[vim.diagnostic.severity.HINT] = "Hint",
+				},
+			},
+		})
 
 		keybinding()
-		create_signs()
-		create_gdscript_config(capabilities)
 
-		mason_lspconfig.setup_handlers({
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
-			["ts_ls"] = function()
-				local nvim_config_home = vim.fn.stdpath("config")
-				lspconfig["ts_ls"].setup({
-					name = "ts_ls_js",
-					filetypes = { "javascript", "javascriptreact", "javascript.jsx" },
-					init_options = {
-						plugins = {
-							{
-								name = "@styled/typescript-styled-plugin",
-								location = nvim_config_home .. "/node_modules/@styled/typescript-styled-plugin",
-							},
-						},
-						preferences = {
-							importModuleSpecifierEnding = "js",
-						},
+		vim.lsp.config("ts_ls", {
+			init_options = {
+				plugins = {
+					{
+						name = "@styled/typescript-styled-plugin",
+						location = vim.fn.stdpath("config") .. "/node_modules/@styled/typescript-styled-plugin",
 					},
-				})
-				lspconfig["ts_ls"].setup({
-					name = "ts_ls_ts",
-					filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-					init_options = {
-						plugins = {
-							{
-								name = "@styled/typescript-styled-plugin",
-								location = nvim_config_home .. "/node_modules/@styled/typescript-styled-plugin",
-							},
-						},
-						preferences = {
-							importModuleSpecifierEnding = "minimal",
-						},
-					},
-				})
-			end,
-			["graphql"] = function()
-				lspconfig["graphql"].setup({
-					filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-				})
-			end,
-			["lua_ls"] = function()
-				lspconfig["lua_ls"].setup({
-					settings = {
-						Lua = {
-							-- make the language server recognize "vim" global
-							diagnostics = {
-								globals = { "vim" },
-							},
-							completion = {
-								callSnippet = "Replace",
-							},
-						},
-					},
+				},
+				preferences = { importModuleSpecifierEnding = "minimal" },
+			},
+		})
+
+		vim.lsp.config("lua_ls", {
+			settings = {
+				Lua = {
+					diagnostics = { globals = { "vim" } },
+					completion = { callSnippet = "Replace" },
+				},
+			},
+		})
+
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "gdscript",
+			callback = function()
+				vim.lsp.start({
+					name = "godot",
+					cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
+					root_dir = vim.fs.dirname(vim.fs.find({ "project.godot", ".git" }, { upward = true })[1]),
 				})
 			end,
 		})

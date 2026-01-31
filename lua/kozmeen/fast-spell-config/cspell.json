@@ -1,0 +1,10 @@
+{
+  "language": "en",
+  "dictionaries": ["pl"],
+  "dictionaryDefinitions": [
+    {
+      "name": "pl",
+      "path": "./node_modules/@cspell/dict-pl_pl/pl_pl.trie.gz"
+    }
+  ]
+}

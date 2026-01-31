@@ -46,4 +46,4 @@ opt.splitbelow = true
 vim.cmd("let g:netrw_liststyle = 3")
 
 vim.opt.spelllang = "en_us,pl"
-vim.opt.spell = true
+vim.opt.spell = false

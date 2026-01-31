@@ -18,15 +18,10 @@ return {
 		local luasnip = require("luasnip")
 
 		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-		require("luasnip.loaders.from_vscode").lazy_load()
-		require("luasnip.loaders.from_vscode").load({ paths = { "./lua/kozmeen/snippets" } })
+		-- require("luasnip.loaders.from_vscode").lazy_load()
+		-- require("luasnip.loaders.from_vscode").load({ paths = { "./lua/kozmeen/snippets" } })
 
-		vim.api.nvim_set_keymap(
-			"n",
-			"<leader>ch",
-			':lua require("cmp").complete()<CR>',
-			{ desc = "Show autocompletion hints" }
-		)
+		-- require("kozmeen.snippets")
 
 		cmp.setup({
 			completion = {

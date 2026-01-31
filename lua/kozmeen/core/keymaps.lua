@@ -66,6 +66,6 @@ if vim.fn.has("win32") then
 		vim.cmd("OpenExplorer cwd")
 	end, { noremap = true, silent = true, desc = "Project directory" })
 	keymap.set("n", "<leader>oec", function()
-		vim.cmd("OpenExplorer cwd")
+		vim.cmd("OpenExplorer buffer")
 	end, { noremap = true, silent = true, desc = "Current buffer directory" })
 end

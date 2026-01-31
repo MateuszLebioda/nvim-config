@@ -1,20 +1,17 @@
-----------------------------------
--- Plusing help work with AST tree
-----------------------------------
-
 return {
 	"nvim-treesitter/nvim-treesitter",
-	event = { "BufReadPre", "BufNewFile" },
+	tag = "v0.10.0",
+	lazy = false,
 	build = ":TSUpdate",
 	config = function()
-		local treesitter = require("nvim-treesitter.configs")
-
-		treesitter.setup({
+		require("nvim-treesitter.configs").setup({
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = false,
 			},
-			indent = { enable = true },
+			indent = {
+				enable = true,
+			},
 			ensure_installed = {
 				"json",
 				"javascript",
@@ -23,14 +20,10 @@ return {
 				"yaml",
 				"html",
 				"css",
-				"styled",
 				"markdown",
 				"markdown_inline",
 				"svelte",
 				"graphql",
-				"gdscript",
-				"godot_resource",
-				"gdshader",
 				"bash",
 				"lua",
 				"dockerfile",

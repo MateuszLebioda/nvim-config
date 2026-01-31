@@ -1,5 +1,16 @@
 local Utils = {}
 
+function Utils.is_current_filetype(types)
+	if type(types) ~= "table" then
+		types = { types }
+	end
+
+	local filetype = vim.bo.filetype
+	return vim.tbl_filter(function(e)
+		return e == filetype
+	end, types)
+end
+
 function Utils.get_current_buffer_directory()
 	return vim.fs.dirname(vim.api.nvim_buf_get_name(0))
 end

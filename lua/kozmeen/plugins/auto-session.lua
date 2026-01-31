@@ -2,9 +2,8 @@
 -- Plugin allow to create and resotre nvim sessions
 -- For example you have project /x and within you have
 -- open 2 tabs. When you save session using `<leader>ss`
--- and close nvim you can restore it after open nvim next time 
+-- and close nvim you can restore it after open nvim next time
 ----------------------------------------------------------------
-
 
 return {
 	"rmagatti/auto-session",
@@ -16,9 +15,12 @@ return {
 			auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
 		})
 
-    local keymap = vim.keymap
-
-    keymap.set('n','<leader>ss', "<cmd>SessionSave<CR>", {desc = 'Save session for auto session rot directory'})
-    keymap.set('n','<leader>sr', "<cmd>SessionRestore<CR>", {desc = 'Restore sessio for cwd'})
+		vim.keymap.set(
+			"n",
+			"<leader>ss",
+			"<cmd>AutoSession save<CR>",
+			{ desc = "Save session for auto session rot directory" }
+		)
+		vim.keymap.set("n", "<leader>sr", "<cmd>AutoSession restore<CR>", { desc = "Restore sessio for cwd" })
 	end,
 }

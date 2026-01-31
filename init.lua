@@ -1,5 +1,4 @@
 require("kozmeen.core")
 require("kozmeen.lazy")
-require("spell")
 require("kozmeen.languages")
 require("kozmeen.custom")

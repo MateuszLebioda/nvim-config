@@ -3,6 +3,10 @@
 ----------------------------------------
 
 -- Colors using in plugin
+local git = require("kozmeen.core.utils.git")
+local git_icon = require("kozmeen.core.icons").git_icon
+local diagnostisc_icon = require("kozmeen.core.icons").diagnostics_icon
+
 local colors = {
 	bg = "#202328",
 	fg = "#bbc2cf",
@@ -17,17 +21,6 @@ local colors = {
 	red = "#ec5f67",
 }
 
-local function macro()
-	local char = vim.fn.reg_recording()
-	if char ~= "" then
-		return "<" .. char .. ">"
-	else
-		return ""
-	end
-end
-
-local git = require("kozmeen.core.utils.git")
-local git_icon = require("kozmeen.core.icons").git_icon
 local icon_map = {
 	Staged = { icon = git_icon.add, color = "#a6e22e" }, -- zielony +
 	Modified = { icon = git_icon.modified, color = "#e6db74" }, -- żółty ~
@@ -37,6 +30,15 @@ local icon_map = {
 	-- Conflict = { icon = git_icon.conflict, color = "#ff5f5f" }, -- jasnoczerwony
 	-- Clean = { icon = "", color = "#5fafff" }, -- niebieski ✓
 }
+
+local function macro()
+	local char = vim.fn.reg_recording()
+	if char ~= "" then
+		return "<" .. char .. ">"
+	else
+		return ""
+	end
+end
 
 local function git_status()
 	local status = git.status()
@@ -50,7 +52,7 @@ return {
 	config = function()
 		require("lualine").setup({
 			options = {
-				theme = "codedark",
+				theme = "nordic",
 				component_separators = { left = "/", right = "" },
 			},
 			sections = {
@@ -63,16 +65,19 @@ return {
 							return icon_map[status] and { fg = icon_map[status].color } or {}
 						end,
 					},
-					-- color = function()
-					-- 	local status = git.component()
-					-- 	local entry = icon_map[status]
-					-- 	return entry and { fg = entry.color } or {}
-					-- end,
 				},
 				lualine_c = {
 					{ "branch", icon = { "" }, color = "LualineGreen" },
 					"diff",
-					"diagnostics",
+					{
+						"diagnostics",
+						symbols = {
+							error = diagnostisc_icon.error,
+							warn = diagnostisc_icon.warn,
+							info = diagnostisc_icon.info,
+							hint = diagnostisc_icon.hint,
+						},
+					},
 				},
 				lualine_x = {
 					{ macro, icon = { "󰑋", color = { fg = "#cc3300" } } },

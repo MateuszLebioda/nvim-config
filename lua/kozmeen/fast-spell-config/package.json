@@ -1,0 +1,10 @@
+{
+    "name": "fastspell-libs",
+    "version": "1.0.0",
+    "description": "To be sure that all plugins work correctly use those command: npm instal",
+    "author": "Mateusz Lebioda",
+    "license": "ISC",
+    "dependencies": {
+        "@cspell/dict-pl_pl": "^3.0.6"
+    }
+}

@@ -61,7 +61,7 @@ return {
 			dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
 			dashboard.button("SPC fs", "󰈬  > Find Word", "<cmd>Telescope live_grep<CR>"),
 			dashboard.button("n", "  > Open [No Name] buffer"),
-			dashboard.button("SPC sr", "󰁯  > Restore session for cwd", "<cmd>SessionRestore<CR>"),
+			dashboard.button("SPC sr", "󰁯  > Restore session for cwd", "<cmd>AutoSession restore<CR>"),
 			dashboard.button("c", "  > Close welcome page"),
 			dashboard.button("q", "󰈆  > Quit NVIM", "<cmd>qa<CR>"),
 		}
