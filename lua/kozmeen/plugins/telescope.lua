@@ -32,6 +32,9 @@ function godot_ignore_patterns()
 		"%.tiff",
 		"%.svg",
 		"%.tmp",
+		"%.tscn",
+		"%.uid",
+		"%.tres",
 	}
 end
 

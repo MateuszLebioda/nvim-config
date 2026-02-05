@@ -1,3 +1,5 @@
+local ls = require("luasnip")
+
 local SnippetsUtils = {}
 
 function SnippetsUtils.indent(level)

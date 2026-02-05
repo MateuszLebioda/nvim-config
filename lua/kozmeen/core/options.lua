@@ -5,10 +5,12 @@ opt.relativenumber = true
 opt.number = true
 
 -- Tabs & indent
-opt.tabstop = 4 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 4 -- 2 spaces for indent width
+opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
+opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
+
+opt.signcolumn = "yes" -- always display diagnostic bar even if it is empty
 
 local function set_indent(filetype, tabsize)
 	vim.api.nvim_create_autocmd("FileType", {
