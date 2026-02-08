@@ -154,7 +154,7 @@ return {
 				plugins = {
 					{
 						name = "@styled/typescript-styled-plugin",
-						location = vim.fn.stdpath("config") .. "/node_modules/@styled/typescript-styled-plugin",
+						location = vim.fn.getcwd() .. "/node_modules/@styled/typescript-styled-plugin",
 					},
 				},
 				preferences = { importModuleSpecifierEnding = "minimal" },

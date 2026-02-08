@@ -29,6 +29,7 @@ return {
 				"dockerfile",
 				"gitignore",
 				"sql",
+				"styled",
 			},
 			incremental_selection = {
 				enable = true,
